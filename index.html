@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <title>Helper for request</title>
+    <style type="text/css">
+      textarea {
+        width: 100%;
+      }
+      button {
+        padding: 20px;
+      }
+      .convert {
+        width: 100%;
+      }
+      .send {
+        width: 100%;
+      }
+      .textwrapper {
+        border: 1px solid #999999;
+        margin: 5px 0;
+        padding: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="display: block" id="rulesformitem" class="formitem">
+      <button onclick="Clear()">Очистить</button>
+      <input id="abck_input" type="text" size="8" title="новая abck" />
+      <button onclick="Replace()">Заменить abck</button>
+      <input
+        id="cookie_input"
+        type="text"
+        size="60"
+        title="Имена удаляемых кук через запятую"
+      />
+      <button onclick="Remove()">Удалить</button>
+      <input type="text" size="40" title="Для заметок" style="float: right" />
+      <p id="comments"></p>
+      <div class="textwrapper">
+        <label
+          for="rules"
+          id="ruleslabel"
+          title="Данные request из Fidler вкладки Raw"
+          >Входные данные Request:</label
+        >
+        <textarea id="input" cols="2" rows="8" id="rules">
+GET https://bananarepublicfactory.gapfactory.com/browse/product.do?pid=668772011 HTTP/1.1
+Host: bananarepublicfactory.gapfactory.com
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Dest: document
+Cache-Control: max-age=0
+Connection: keep-alive
+Accept: text/html, application/xhtml+xml, application/xml; q=0.9, image/avif, image/webp, image/apng, */*; q=0.8, application/signed-exchange; v=b3; q=0.9
+Referer: https://bananarepublicfactory.gapfactory.com/browse/product.do?pid=668772011&cookieInitializationAttempted=true
+Origin: https://bananarepublicfactory.gapfactory.com
+Sec-Fetch-User: ?1
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36
+Accept-Language: en-US; q=0.5
+Accept-Encoding: gzip, deflate
+Cookie: ak_bmsc=67D66D434653CE35DDBD333B330BABAC172347DFDA5300008FF73060A3747713~plQQV6ia7SvFKIjj9I7CYwUWIfntwrVMLrQ1hWok4FY3kX7/L3yYkEIbkax06vF9cUlzQpCSK63ldntb1LsstWsWvebnTUICBukY2BBWEzHOCSbKUpN3rm6C3qJMy2TpgN9tjAnpMLuf3iPtnOQLm+YC7dmKsy0xou7joGihH8/r1LszOy6vlIm0h/98SqLJbSOIf/TDRz7ELk92LAT/aa1IpQaruWoPHVasfExONhPdwgWPXD4RK7OyXoAmIdmPD4; akacd_p-brf=3791274638~rv=28~id=dbfe5c27dfd6c6a6928d57949f918bcc; bm_sz=427D28A6B24C6C1CA846E6FD64EB65CB~YAAQ30cjF2KtR7p3AQAAKAdHvwpnLXMbXguA5NzaJFFT8Sa7LKgR+H2ztFg0bPrQQL/SN0aETMJ3La83N26Vz6J7gg0AoyXhnGqkDmVeqlBo4UGokcdDqp9MEXt/HOhsiX3RMq+mnEDH7sDRx4ULLRvA/CQgcPUMTjvS9whvyhrnlY27h92s/fDvjhF25MXO7HiemA==; _abck=9C64039D3A63808327E1D43151761217~-1~YAAQ30cjF2OtR7p3AQAAKAdHvwX5WbWildPCr9wkAI2os1/R0OrmOXKDJJZMSt5q7U3d6FIIW/50zupBB0swX30l2nm3XnUawCDVi/QLzr3a5uiWyC9lhxNFB1oylWiH3IPyZXF46bzQDna8Ro8jDhiz4wRQ/L1dG0EsL5L/ww8eSkygS3Mr7jYmXV5uLCWGyfTTh99jePPDdliM/4DEiSP3MLIunWy3l/bzcGye/ABjIOGxpKG486I7Ez6AQeSSPV0Z1meME1W7QlOYZcSHwN7ah4+FIAzpxAw6BvSbf5QkqqKDHgV4MwBMRzeUrw==~-1~-1~-1; unknownShopperId=DA4166B0737111EBAC94EDD443B2AD8F; ABSeg=brand-brfs/brfs03-a/brfs06-a/brfs11-a/brfs19-b/brfs20-a/brfs26-x/brfs43-x/v-2; NGRedirect={"redirect_resetPassword":"true"; "redirect_shippingAddress"=; "redirect_signIn"=; "redirect_orderLookup"=; "redirect_accountSettings"=; "redirect_wallet"=; "redirect_profile"=; "redirect_signOut"=; "redirect_shoppingBag"=; locale=en_US|||; prlb=e
+
+
+ </textarea
+        >
+        <label for="rules" id="ruleslabel">Выходной Json:</label>
+        <textarea id="output" cols="2" rows="12" id="rules"></textarea>
+        <button class="convert" onclick="ConvertToJson()">Преобразовать</button>
+        <button class="send" onclick="Send()">Отправить</button>
+      </div>
+      <p>
+        Быстро найти и удалить куки в notepad++: "coockieName1=.*?;
+        |coockieName2=.*?; "
+      </p>
+
+      <p>
+        Сайт для сравнения JSON:
+        <a
+          href="https://jsoneditoronline.org/#left=local.suqade&right=local.nibota"
+          >jsoneditoronline.org</a
+        >
+      </p>
+    </div>
+    <script type="text/javascript">
+      function ConvertToJson() {
+        let result = { request: "", headers: [], cookies: [] };
+        let text = document.getElementById("input").value;
+        let resultString = "{\n";
+
+        let mainRegexp = /(.*) (http.*) HTTP\/1.1/g;
+        let mainMatch = mainRegexp.exec(text);
+        resultString += `"Main":\n{\n"Method": "${mainMatch[1]}",\n"Url":"${mainMatch[2]}"\n}`;
+
+        let headersStrRegexp = /HTTP\/1.1((.|\n)+?)Cookie/g;
+        let headersStrMatch = headersStrRegexp.exec(text);
+        if (!headersStrMatch) {
+          headersStrMatch = /HTTP\/1.1((.|\n)+?)\n\n/g.exec(text);
+        }
+        let headersStr = headersStrMatch[1];
+        let headersRegexp = /(.+?): (.+)/g;
+        let headersMatch = headersRegexp.exec(headersStr);
+        while (headersMatch != null) {
+          //result.headers.push({ header: headersMatch[1], value: headersMatch[2] });
+          result.headers.push(`"${headersMatch[1]}":"${headersMatch[2]}"`);
+          headersMatch = headersRegexp.exec(headersStr);
+        }
+        resultString += `,\n"Headers":\n{\n${result.headers.join(",\n")}\n}`;
+
+        let cookieStrRegexp = /Cookie: (.*)/g;
+        let cookieStrMatch = cookieStrRegexp.exec(text);
+        if (cookieStrMatch) {
+          let cookieStr = cookieStrMatch[1];
+          let cookieRegexp = /(.+?)=(.*?);/g;
+          let cookieMatch = cookieRegexp.exec(cookieStr);
+          while (cookieMatch != null) {
+            result.cookies.push(
+              `"${cookieMatch[1]
+                .trim()
+                .replace(/^"+|"+$/g, "")}":"${cookieMatch[2].replaceAll(
+                '"',
+                '\\"'
+              )}"`
+            );
+            cookieMatch = cookieRegexp.exec(cookieStr);
+          }
+          resultString += `,\n"Cookies":\n{\n${result.cookies.join(
+            ",\n"
+          )}\n}\n`;
+        } else {
+          resultString += `,\n"Cookies":\n{}\n`;
+        }
+
+        let bodyRegexp = /\n\n+(.*)/g;
+        let bodymainMatch = bodyRegexp.exec(text);
+        if (mainMatch[1]) {
+          let val = bodymainMatch[1].trim();
+          resultString += `,\n"Body":\n${val[0] == "{" ? val : `"${val}"`}`;
+        }
+
+        resultString += "}";
+        document.getElementById("output").value = resultString;
+      }
+      function Clear() {
+        document.getElementById("input").value = "";
+        document.getElementById("output").value = "";
+      }
+      function Replace() {
+        let abck = document.getElementById("abck_input").value;
+        let value = document.getElementById("input").value;
+        let abckRegexp = /_abck=(.*);?/g;
+        let abckMatch = abckRegexp.exec(value);
+        let abckOld = abckMatch[1];
+        document.getElementById("input").value = value.replace(abckOld, abck);
+        document.getElementById("abck_input").value = "";
+      }
+      function Remove() {
+        let nameStrCoockies = document.getElementById("cookie_input").value;
+        let value = document.getElementById("input").value;
+
+        let nameCoockies = nameStrCoockies.split(",");
+        document.getElementById("comments").innerHTML = "Удалены куки: ";
+        let removed = [];
+        nameCoockies.forEach((nameCoockie) => {
+          let findRegexp = new RegExp(`${nameCoockie.trim()}=(.*?)(;|\n)`, "g");
+          let findMatch = findRegexp.exec(value);
+          if (findMatch) {
+            let findText = findMatch[0];
+            value = value.replace(findText.replace("\n", ""), "");
+            removed.push(nameCoockie);
+          }
+        });
+        document.getElementById("comments").innerHTML += removed.join(", ");
+
+        document.getElementById("input").value = value;
+      }
+
+      function Send() {
+        ConvertToJson();
+
+        let jsonStr = document.getElementById("output").value;
+        let json = JSON.parse(jsonStr);
+
+        let text = document.getElementById("input").value;
+        let cookieStrRegexp = /Cookie: (.*)/g;
+        let cookieStrMatch = cookieStrRegexp.exec(text);
+
+        document.cookie = "cookie1=test, expires=Sun, test=sef";
+        document.cookie = "cookie1=test2,expires=Sun,test=sef";
+        document.cookie = cookieStrMatch[1];
+        createCookie("testtt", "valll");
+
+        sendData(json.Main.Url, json.Main.Method, json.Headers, {}).then(
+          (data) => {
+            console.log(data); // JSON data parsed by `response.json()` call
+          }
+        );
+
+        /*const rawResponse = await fetch(json.Main.Url, {
+            credentials : 'include',
+            method: json.Main.Method,
+            headers: json.Headers,
+            body: json.Body,
+        });*/
+      }
+      function createCookie(name, value, days) {
+        var expires;
+        if (days) {
+          var date = new Date();
+          date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+          expires = "; expires=" + date.toGMTString();
+        } else {
+          expires = "";
+        }
+        document.cookie = name + "=" + value + expires + "; path=/";
+      }
+
+      async function sendData(url = "", method = "", headers = {}, data = {}) {
+        // Default options are marked with *
+        try {
+          const response = await fetch(url, {
+            method: "GET", // *GET, POST, PUT, DELETE, etc.
+            mode: "no-cors", // no-cors, *cors, same-origin
+            //cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "include", // include, *same-origin, omit
+            headers: headers,
+            //redirect: "follow", // manual, *follow, error
+            //referrerPolicy: "no-referrer", // no-referrer, *client
+            //body: JSON.stringify(data), // body data type must match "Content-Type" header
+          });
+          return await response.json(); // parses JSON response into native JavaScript objects
+        } catch (error) {
+          console.error("Ошибка:", error);
+          debugger;
+        }
+      }
+      async function postData2(url = "", method = "", headers = {}, data = {}) {
+        // Default options are marked with *
+        const response = await fetch(url, {
+          method: method, // *GET, POST, PUT, DELETE, etc.
+          mode: "cors", // no-cors, *cors, same-origin
+          cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+          credentials: "same-origin", // include, *same-origin, omit
+          headers: headers,
+          redirect: "follow", // manual, *follow, error
+          referrerPolicy: "no-referrer", // no-referrer, *client
+          //body: JSON.stringify(data), // body data type must match "Content-Type" header
+        });
+        return await response.json(); // parses JSON response into native JavaScript objects
+      }
+    </script>
+  </body>
+</html>
